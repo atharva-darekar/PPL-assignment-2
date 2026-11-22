@@ -19,3 +19,17 @@
     (if (null? remaining)
         reversed
         (loop (cdr remaining) (cons (car remaining) reversed)))))
+
+;; Produce the inorder values, followed by accumulator.
+(define (inorder-values tree accumulator)
+  (if (empty-tree? tree)
+      accumulator
+      (inorder-values
+        (tree-left tree)
+       (cons (tree-value tree)
+             (inorder-values (tree-right tree) accumulator)))))
+
+;; Print the inorder traversal of tree on one line.
+(define (print-inorder tree)
+  (display (inorder-values tree '()))
+  (newline))
