@@ -2,7 +2,7 @@
 
 (require racket/runtime-path)
 
-(define-runtime-path solution-module "../code/49_q3.rkt")
+(define-runtime-path solution-module "../code/25_q3.rkt")
 
 (define solution-namespace
   (begin

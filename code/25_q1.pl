@@ -59,6 +59,7 @@ count_solutions(Active, N) :-
 main :-
     candidate_solution(Solution),
     active_clues_hold([1, 2, 3, 4, 5, 6, 7, 8], Solution),
+    !,
     Solution = [p('Alex', AlexDept, AlexLang, AlexProject),
                 p('Ben', BenDept, BenLang, BenProject),
                 p('Carla', CarlaDept, CarlaLang, CarlaProject),

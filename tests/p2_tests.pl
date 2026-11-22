@@ -1,4 +1,4 @@
-:- consult('../code/49_q2.pl').
+:- consult('../code/25_q2.pl').
 
 run_p2_tests :-
     test_pdf_all_equations,

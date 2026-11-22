@@ -1,4 +1,4 @@
-:- consult('../code/49_q1.pl').
+:- consult('../code/25_q1.pl').
 
 run_p1_tests :-
     test_all_eight_clues,
