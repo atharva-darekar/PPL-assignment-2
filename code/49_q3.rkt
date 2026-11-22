@@ -33,3 +33,31 @@
 (define (print-inorder tree)
   (display (inorder-values tree '()))
   (newline))
+
+;; Produce the preorder values, followed by accumulator.
+(define (preorder-values tree accumulator)
+  (if (empty-tree? tree)
+      accumulator
+      (cons (tree-value tree)
+            (preorder-values
+             (tree-left tree)
+             (preorder-values (tree-right tree) accumulator)))))
+
+;; Produce the postorder values, followed by accumulator.
+(define (postorder-values tree accumulator)
+  (if (empty-tree? tree)
+      accumulator
+      (postorder-values
+       (tree-left tree)
+       (postorder-values
+        (tree-right tree)
+        (cons (tree-value tree) accumulator)))))
+
+;; Print the inorder, preorder, and postorder traversals of tree.
+(define (print-all-traversals tree)
+  (display (inorder-values tree '()))
+  (newline)
+  (display (preorder-values tree '()))
+  (newline)
+  (display (postorder-values tree '()))
+  (newline))
