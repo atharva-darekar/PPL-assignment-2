@@ -12,6 +12,14 @@ generate_equation(List, Equation) :-
     string_concat(LeftString, "=", PartialString),
     string_concat(PartialString, RightString, Equation).
 
+all_equations(List, Equations) :-
+    findall(Equation, generate_equation(List, Equation), GeneratedEquations),
+    sort(GeneratedEquations, Equations).
+
+count_equations(List, N) :-
+    all_equations(List, Equations),
+    length(Equations, N).
+
 non_negative_integers([]).
 non_negative_integers([Number | Numbers]) :-
     integer(Number),
