@@ -18,16 +18,22 @@
         (my-reverse result)
         (loop (cdr rest) (cons (f (car rest)) result)))))
 
+(define (make-inserter x len-ok?)
+  (letrec ((insert-into
+            (lambda (lst)
+              (let ((processed
+                     (my-map (lambda (element)
+                               (if (or (pair? element) (null? element))
+                                   (insert-into element)
+                                   element))
+                             lst)))
+                (if (len-ok? (my-length lst))
+                    (cons x processed)
+                    processed)))))
+    insert-into))
+
 (define (insert-if-short x lst n)
-  (let ((processed
-         (my-map (lambda (element)
-                   (if (or (pair? element) (null? element))
-                       (insert-if-short x element n)
-                       element))
-                 lst)))
-    (if (< (my-length lst) n)
-        (cons x processed)
-        processed)))
+  ((make-inserter x (lambda (len) (< len n))) lst))
 
 (define (print-insert-result)
   (let ((x (read))
