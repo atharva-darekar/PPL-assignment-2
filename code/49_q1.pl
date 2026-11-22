@@ -28,25 +28,37 @@ clue(8, Solution) :-
     member(p(_, research, Lang, data), Solution),
     Lang \= javascript.
 
-main :-
-    Solution = [p('Alex', AlexDept, AlexLang, AlexProject),
-                p('Ben', BenDept, BenLang, BenProject),
-                p('Carla', CarlaDept, CarlaLang, CarlaProject),
-                p('Dana', DanaDept, DanaLang, DanaProject)],
+candidate_solution([p('Alex', AlexDept, AlexLang, AlexProject),
+                    p('Ben', BenDept, BenLang, BenProject),
+                    p('Carla', CarlaDept, CarlaLang, CarlaProject),
+                    p('Dana', DanaDept, DanaLang, DanaProject)]) :-
     permutation([research, development, design, testing],
                 [AlexDept, BenDept, CarlaDept, DanaDept]),
     permutation([python, java, 'c++', javascript],
                 [AlexLang, BenLang, CarlaLang, DanaLang]),
     permutation(['AI', web, embedded, data],
-                [AlexProject, BenProject, CarlaProject, DanaProject]),
-    clue(1, Solution),
-    clue(2, Solution),
-    clue(3, Solution),
-    clue(4, Solution),
-    clue(5, Solution),
-    clue(6, Solution),
-    clue(7, Solution),
-    clue(8, Solution),
+                [AlexProject, BenProject, CarlaProject, DanaProject]).
+
+active_clues_hold([], _).
+active_clues_hold([N | Rest], Solution) :-
+    clue(N, Solution),
+    active_clues_hold(Rest, Solution).
+
+count_solutions(Active, N) :-
+    findall(Solution,
+            ( candidate_solution(Solution),
+              active_clues_hold(Active, Solution)
+            ),
+            Solutions),
+    length(Solutions, N).
+
+main :-
+    candidate_solution(Solution),
+    active_clues_hold([1, 2, 3, 4, 5, 6, 7, 8], Solution),
+    Solution = [p('Alex', AlexDept, AlexLang, AlexProject),
+                p('Ben', BenDept, BenLang, BenProject),
+                p('Carla', CarlaDept, CarlaLang, CarlaProject),
+                p('Dana', DanaDept, DanaLang, DanaProject)],
     format('Alex = [~w, ~w, ~w]~n', [AlexDept, AlexLang, AlexProject]),
     format('Ben = [~w, ~w, ~w]~n', [BenDept, BenLang, BenProject]),
     format('Carla = [~w, ~w, ~w]~n', [CarlaDept, CarlaLang, CarlaProject]),
