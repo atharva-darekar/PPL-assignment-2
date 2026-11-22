@@ -61,3 +61,20 @@
   (newline)
   (display (postorder-values tree '()))
   (newline))
+
+;; Return (height leaf-count) for tree.
+(define (height-and-leaves tree)
+  (if (empty-tree? tree)
+      (list 0 0)
+      (let* ((left-results (height-and-leaves (tree-left tree)))
+             (right-results (height-and-leaves (tree-right tree))))
+        (list (+ 1 (max (car left-results) (car right-results)))
+              (if (and (empty-tree? (tree-left tree))
+                       (empty-tree? (tree-right tree)))
+                  1
+                  (+ (cadr left-results) (cadr right-results)))))))
+
+;; Print the height and leaf count of tree on one line.
+(define (print-height-and-leaves tree)
+  (display (height-and-leaves tree))
+  (newline))
